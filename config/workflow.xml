@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<workflow>
+    <work name="1" switch="on">
+        <plugin name="echoplugin.so" switch="on" />
+    </work>
+</workflow>
