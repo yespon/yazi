@@ -4,6 +4,9 @@
 # Log
 *.log
 
+# pyenv
+.idea/
+
 # Compiled Object files
 *.slo
 *.lo
