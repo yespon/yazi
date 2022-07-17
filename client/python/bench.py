@@ -47,7 +47,7 @@ class ClientThread(threading.Thread):
 
         client = socket.socket()  # 创建TCP/IP套接字
         client.connect((host, port))  # 主动初始化TCP服务器连接
-        self.send_data_2(client, f'{self.name}: hello python')
+        self.send_data_1(client, f'{self.name}: hello python')
         # self.send_data(client, f'{self.name}: so far so good!')
         client.close()
 
@@ -73,9 +73,11 @@ if __name__ == '__main__':
     log_dir = os.path.dirname(__file__)
     create_log(log_dir + "/test.log")
 
+    threads = 100000
+
     start = time.time()
     thread_list = list()
-    for i in range(256):
+    for i in range(threads):
         thread = ClientThread(f'thread{i}')
         thread_list.append(thread)
         thread.start()
