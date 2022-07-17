@@ -82,11 +82,12 @@ class ClientThread(threading.Thread):
 
 if __name__ == '__main__':
     log_dir = os.path.dirname(__file__)
+    log_file = log_dir + '/test.log'
+    if os.path.exists(log_file):
+        # 删除旧的日志文件
+        os.remove(log_file)
 
-    # 删除旧的日志文件
-    os.remove(log_dir + '/test.log')
-
-    create_log(log_dir + '/test.log')
+    create_log(log_file)
 
     base_path = os.path.dirname(os.path.dirname(log_dir))
     config = configparser.ConfigParser()
