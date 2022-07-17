@@ -14,7 +14,7 @@ def stat():
             arr = line.split()
             txt = arr[-1]
             time_cost = txt.split('=')[-1]
-            time_cost = time_cost.replace('s', '')
+            time_cost = time_cost.replace('ms', '')
             total_time += float(time_cost)
         else:
             break
