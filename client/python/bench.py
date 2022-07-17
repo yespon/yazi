@@ -5,6 +5,7 @@ import time
 import logging
 from logging.config import dictConfig
 import os
+import configparser
 
 
 def create_log(log_file):
@@ -81,9 +82,18 @@ class ClientThread(threading.Thread):
 
 if __name__ == '__main__':
     log_dir = os.path.dirname(__file__)
-    create_log(log_dir + "/test.log")
 
-    threads = 100000
+    # 删除旧的日志文件
+    os.remove(log_dir + '/test.log')
+
+    create_log(log_dir + '/test.log')
+
+    base_path = os.path.dirname(os.path.dirname(log_dir))
+    config = configparser.ConfigParser()
+    config.read(base_path + '/config/main.ini')
+
+    threads = config['bench']['threads']
+    threads = int(threads)
 
     start = time.time()
     thread_list = list()
@@ -94,5 +104,6 @@ if __name__ == '__main__':
     
     for thread in thread_list:
         thread.join()
-    print("thread finished , cost %s s" % (time.time() - start))
+    total_time = round((time.time() - start), 3)
+    print(f'thread finished, total time cost: {total_time}s')
 

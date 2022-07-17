@@ -14,7 +14,7 @@ CFLAGS = -g -O2 -Wall -Werror -Wno-unused -ldl -fPIC
 $(warning CFLAGS is ${CFLAGS})
 
 #找出当前目录下所有头文件
-INCLUDE_TEMP = $(shell find ./* -type d | grep -v '\.svn' | grep -v '\./plugin' | grep -v '\./client' | grep -v '\./log')
+INCLUDE_TEMP = $(shell find ./* -type d | grep -v '\.svn' | grep -v '\./plugin' | grep -v '\./client' | grep -v '\./config' | grep -v '\./log')
 INCLUDE = $(patsubst %,-I %, $(INCLUDE_TEMP))
 $(warning INCLUDE is ${INCLUDE})
 
