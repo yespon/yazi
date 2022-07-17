@@ -1,10 +1,10 @@
 <?php
 
-host = '127.0.0.1';
-port = 8080;
+$host = '127.0.0.1';
+$port = 8080;
 
 $sockfd = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-socket_connect($sockfd, host, port);
+socket_connect($sockfd, $host, $port);
 
 send_data($sockfd, "hello c++");
 $resp = socket_read($sockfd, 1024);

@@ -22,8 +22,8 @@ def create_log(log_file):
                 'class': 'logging.handlers.RotatingFileHandler',
                 'formatter': 'default',
                 'filename': log_file,
-                'maxBytes': 1024 * 1024 * 10,
-                'backupCount': 10,
+                'maxBytes': 1024 * 1024 * 100,
+                'backupCount': 100,
                 'encoding': 'utf-8'
             }
         },
@@ -72,12 +72,12 @@ class ClientThread(threading.Thread):
         data = struct.pack(f'8sII{data_len}s', b'work', cmd, data_len, data.encode('utf-8'))
         client.send(data)  # 发送TCP数据
         info = client.recv(1024).decode()
-        print(info)
+        # print(info)
 
     def send_data_2(self, client, data):
         client.send(data.encode('utf-8'))  # 发送TCP数据
         info = client.recv(1024).decode()
-        print(info)
+        # print(info)
 
 
 def str_to_time(time_str):
