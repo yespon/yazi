@@ -46,7 +46,7 @@ class ClientThread(threading.Thread):
 
         client = socket.socket()  # 创建TCP/IP套接字
         client.connect((host, port))  # 主动初始化TCP服务器连接
-        self.send_data(client, f'{self.name}: hello python')
+        self.send_data_2(client, f'{self.name}: hello python')
         # self.send_data(client, f'{self.name}: so far so good!')
         client.close()
 
@@ -54,15 +54,15 @@ class ClientThread(threading.Thread):
         cost = round((end - start) * 1000, 3)
         logging.info(f'time cost={cost}ms')
     
-    # def send_data(self, client, data):
-    #     cmd = 1
-    #     data_len = len(data)
-    #     data = struct.pack(f'8sII{data_len}s', b'work', cmd, data_len, data.encode('utf-8'))
-    #     client.send(data)  # 发送TCP数据
-    #     info = client.recv(1024).decode()
-    #     print(info)
+    def send_data_1(self, client, data):
+        cmd = 1
+        data_len = len(data)
+        data = struct.pack(f'8sII{data_len}s', b'work', cmd, data_len, data.encode('utf-8'))
+        client.send(data)  # 发送TCP数据
+        info = client.recv(1024).decode()
+        print(info)
 
-    def send_data(self, client, data):
+    def send_data_2(self, client, data):
         client.send(data.encode('utf-8'))  # 发送TCP数据
         info = client.recv(1024).decode()
         print(info)
