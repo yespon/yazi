@@ -119,6 +119,7 @@ if __name__ == '__main__':
     create_log(log_file)
 
     base_path = os.path.dirname(os.path.dirname(log_dir))
+    base_path = os.path.abspath(base_path)
     config = configparser.ConfigParser()
     config.read(base_path + '/config/main.ini')
 
