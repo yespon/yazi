@@ -1,8 +1,12 @@
 
+import os
+
+
 def stat():
     total = 0
     total_time = 0
-    fp = open('/root/yazi/client/python/test.log', 'r')
+    log_dir = os.path.dirname(__file__)
+    fp = open(log_dir + '/test.log', 'r')
     while True:
         line = fp.readline()
         if line:

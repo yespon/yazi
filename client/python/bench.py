@@ -4,6 +4,7 @@ import struct
 import time
 import logging
 from logging.config import dictConfig
+import os
 
 
 def create_log(log_file):
@@ -68,10 +69,9 @@ class ClientThread(threading.Thread):
         print(info)
 
 
-
 if __name__ == '__main__':
-
-    create_log("/root/yazi/client/python/test.log")
+    log_dir = os.path.dirname(__file__)
+    create_log(log_dir + "/test.log")
 
     start = time.time()
     thread_list = list()
