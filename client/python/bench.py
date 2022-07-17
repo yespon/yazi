@@ -80,6 +80,35 @@ class ClientThread(threading.Thread):
         print(info)
 
 
+def str_to_time(time_str):
+    time_cost = time_str.split('=')[-1]
+    time_cost = time_cost.replace('ms', '')
+    return float(time_cost)
+
+
+def stat(log_file):
+    total = 0
+    total_time = 0
+    total_conn_time = 0
+    total_req_time = 0
+    fp = open(log_file, 'r')
+    while True:
+        line = fp.readline()
+        if line:
+            total += 1
+            arr = line.split()
+            conn_time_cost = str_to_time(arr[4])
+            req_time_cost = str_to_time(arr[5])
+            total_time_cost = str_to_time(arr[6])
+            # print(f'conn_time_cost={conn_time_cost}, req_time_cost={req_time_cost}, total_time_cost={total_time_cost}')
+            total_conn_time += conn_time_cost
+            total_req_time += req_time_cost
+            total_time += total_time_cost
+        else:
+            break
+    print(f'连接耗时={round(total_conn_time / total, 3)}ms, 请求耗时={round(total_req_time / total, 3)}ms, 总共耗时={round(total_time / total, 3)}ms')
+
+
 if __name__ == '__main__':
     log_dir = os.path.dirname(__file__)
     log_file = log_dir + '/test.log'
@@ -93,7 +122,7 @@ if __name__ == '__main__':
     config = configparser.ConfigParser()
     config.read(base_path + '/config/main.ini')
 
-    threads = config['bench']['threads']
+    threads = config['client']['threads']
     threads = int(threads)
 
     start = time.time()
@@ -108,3 +137,5 @@ if __name__ == '__main__':
     total_time = round((time.time() - start), 3)
     print(f'thread finished, total time cost: {total_time}s')
 
+    # 统计每个请求的平均耗时
+    stat(log_file)
