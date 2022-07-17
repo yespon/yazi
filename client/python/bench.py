@@ -21,7 +21,7 @@ def create_log(log_file):
                 'class': 'logging.handlers.RotatingFileHandler',
                 'formatter': 'default',
                 'filename': log_file,
-                'maxBytes': 1024 * 1024,
+                'maxBytes': 1024 * 1024 * 10,
                 'backupCount': 10,
                 'encoding': 'utf-8'
             }
