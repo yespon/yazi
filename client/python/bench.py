@@ -51,8 +51,8 @@ class ClientThread(threading.Thread):
         client.close()
 
         end = time.time()
-        cost = round(end - start, 3)
-        logging.info(f'time cost={cost}s')
+        cost = round((end - start) * 1000, 3)
+        logging.info(f'time cost={cost}ms')
     
     # def send_data(self, client, data):
     #     cmd = 1
