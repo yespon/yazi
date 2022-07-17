@@ -16,11 +16,6 @@ def create_log(log_file):
             }
         },
         'handlers': {
-            'wsgi': {
-                'class': 'logging.StreamHandler',
-                'stream': 'ext://flask.logging.wsgi_errors_stream',
-                'formatter': 'default'
-            },
             'message': {
                 'class': 'logging.handlers.RotatingFileHandler',
                 'formatter': 'default',
@@ -32,7 +27,7 @@ def create_log(log_file):
         },
         'root': {
             'level': 'INFO',
-            'handlers': ['wsgi', 'message']
+            'handlers': ['message']
         }
     })
 
@@ -59,11 +54,16 @@ class ClientThread(threading.Thread):
         cost = round(end - start, 3)
         logging.info(f'time cost={cost}s')
     
+    # def send_data(self, client, data):
+    #     cmd = 1
+    #     data_len = len(data)
+    #     data = struct.pack(f'8sII{data_len}s', b'work', cmd, data_len, data.encode('utf-8'))
+    #     client.send(data)  # 发送TCP数据
+    #     info = client.recv(1024).decode()
+    #     print(info)
+
     def send_data(self, client, data):
-        cmd = 1
-        data_len = len(data)
-        data = struct.pack(f'8sII{data_len}s', b'work', cmd, data_len, data.encode('utf-8'))
-        client.send(data)  # 发送TCP数据
+        client.send(data.encode('utf-8'))  # 发送TCP数据
         info = client.recv(1024).decode()
         print(info)
 
@@ -71,11 +71,11 @@ class ClientThread(threading.Thread):
 
 if __name__ == '__main__':
 
-    create_log("/root/yazi/client/python/bench.log")
+    create_log("/root/yazi/client/python/test.log")
 
     start = time.time()
     thread_list = list()
-    for i in range(1024):
+    for i in range(256):
         thread = ClientThread(f'thread{i}')
         thread_list.append(thread)
         thread.start()
@@ -83,3 +83,4 @@ if __name__ == '__main__':
     for thread in thread_list:
         thread.join()
     print("thread finished , cost %s s" % (time.time() - start))
+

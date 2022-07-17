@@ -6,6 +6,7 @@ using namespace yazi::socket;
 #include "Task.h"
 using namespace yazi::thread;
 
+#include "EchoTask.h"
 #include "WorkTask.h"
 using namespace yazi::task;
 
@@ -17,7 +18,7 @@ class TaskFactory
 public:
     static Task * create(Socket * socket)
     {
-        return new WorkTask(socket);
+        return new EchoTask(socket);
     }
 };
 

@@ -1,7 +1,6 @@
 #include "WorkTask.h"
 
 #include "Logger.h"
-#include "IniFile.h"
 #include "Singleton.h"
 using namespace yazi::utility;
 
@@ -27,7 +26,7 @@ WorkTask::~WorkTask()
 
 void WorkTask::run()
 {
-    debug("work job run");
+    debug("work task run");
     SocketHandler * handler = Singleton<SocketHandler>::instance();
 
     Socket * socket = static_cast<Socket *>(m_data);
@@ -73,8 +72,6 @@ void WorkTask::run()
         return;
     }
 
-    IniFile * ini = Singleton<IniFile>::instance();
-    int recv_buff_size = (*ini)["server"]["recv_buff_size"];
     if (msg_head.len >= uint32_t(recv_buff_size))
     {
         error("recv msg body len: %d, large than recv_buff_size: %d", msg_head.len, recv_buff_size);
@@ -82,33 +79,29 @@ void WorkTask::run()
         return;
     }
 
-    char * buf = new char[msg_head.len + 1];
-    memset(buf, 0, msg_head.len + 1);
+    char buf[recv_buff_size];
+    memset(buf, 0, recv_buff_size);
     len = socket->recv(buf, msg_head.len);
     if (len == -1 && errno == EAGAIN)
     {
-        delete buf;
         error("socket recv len: %d, error msg: EAGAIN errno: %d", len, errno);
         handler->remove(socket);
         return;
     }
     if (len == -1 && errno == EWOULDBLOCK)
     {
-        delete buf;
         error("socket recv len: %d, error msg: EWOULDBLOCK errno: %d", len, errno);
         handler->remove(socket);
         return;
     }
     if (len == -1 && errno == EINTR)
     {
-        delete buf;
         error("socket recv len: %d, error msg: EINTR errno: %d", len, errno);
         handler->remove(socket);
         return;
     }
     if (len != (int)(msg_head.len))
     {
-        delete buf;
         error("recv msg body error length: %d, body: %s, errno: %d", len, buf, errno);
         handler->remove(socket);
         return;
@@ -123,8 +116,6 @@ void WorkTask::run()
     const string work = os.str();
     const string input = buf;
     string output;
-
-    delete buf;
 
     workflow->run(work, input, output);
 

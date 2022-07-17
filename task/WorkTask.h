@@ -15,6 +15,9 @@ struct MsgHead {
     uint32_t len;
 };
 
+const uint32_t recv_buff_size = 1024;
+
+
 class WorkTask : public Task
 {
 public:
