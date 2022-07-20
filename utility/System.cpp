@@ -2,6 +2,9 @@
 using namespace yazi::utility;
 
 #include <unistd.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <sys/resource.h>
 
 #include "Logger.h"
@@ -26,6 +29,17 @@ void System::init()
     core_dump();
 
     m_root_path = get_root_path();
+
+    const string logdir = m_root_path + "/log";
+    DIR * dp = opendir(logdir.c_str());
+    if (dp == NULL)
+    {
+        mkdir(logdir.c_str(), 0755);
+    }
+    else
+    {
+        closedir(dp);
+    }
 
     // init logger
     Logger::instance()->open(m_root_path + "/log/main.log");

@@ -31,7 +31,7 @@ public:
     void attach(Socket * socket);
     void detach(Socket * socket);
     void remove(Socket * socket);
-    void handle(int max_connections);
+    void handle(int max_connections, int wait_time);
 
 private:
     EventPoller * m_epoll;

@@ -20,11 +20,14 @@ int main()
     int port = (*ini)["server"]["port"];
     int threads = (*ini)["server"]["threads"];
     int max_conn = (*ini)["server"]["max_conn"];
+    int wait_time = (*ini)["server"]["wait_time"];
 
     Server * server = Singleton<Server>::instance();
-    server->listen(ip, port);
     server->set_threads(threads);
     server->set_connects(max_conn);
+    server->set_wait_time(wait_time);
+    
+    server->listen(ip, port);
     server->start();
 
     return 0;

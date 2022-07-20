@@ -10,7 +10,7 @@ using namespace yazi::thread;
 #include "SocketHandler.h"
 using namespace yazi::socket;
 
-Server::Server() : m_ip(""), m_port(0), m_threads(1024), m_connects(1024)
+Server::Server() : m_ip(""), m_port(0), m_threads(1024), m_connects(1024), m_wait_time(10)
 {
 }
 
@@ -26,14 +26,14 @@ void Server::listen(const string & ip, int port)
 
 void Server::start()
 {
-    // initialize the thread pool and task queue
+    // init the thread pool and task queue
     TaskDispatcher * dispatcher = Singleton<TaskDispatcher>::instance();
     dispatcher->init(m_threads);
 
-    // initialize the socket handler
+    // init the socket handler
     SocketHandler * socket_handler = Singleton<SocketHandler>::instance();
     socket_handler->listen(m_ip, m_port);
-    socket_handler->handle(m_connects);
+    socket_handler->handle(m_connects, m_wait_time);
 }
 
 void Server::set_threads(int threads)
@@ -45,3 +45,9 @@ void Server::set_connects(int connects)
 {
     m_connects = connects;
 }
+
+void Server::set_wait_time(int wait_time)
+{
+    m_wait_time = wait_time;
+}
+

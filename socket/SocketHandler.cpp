@@ -57,15 +57,13 @@ void SocketHandler::remove(Socket * socket)
     m_sockpool.release(socket);
 }
 
-void SocketHandler::handle(int max_connections)
+void SocketHandler::handle(int max_connections, int wait_time)
 {
     m_epoll = new EventPoller(false);
     m_epoll->create(max_connections);
     m_epoll->add(m_server->m_sockfd, m_server, (EPOLLIN | EPOLLHUP | EPOLLERR));
     m_sockpool.init(max_connections);
 
-    IniFile * ini = Singleton<IniFile>::instance();
-    int wait_time = (*ini)["server"]["wait_time"];
     debug("epoll wait time: %dms", wait_time);
     while (true)
     {
