@@ -22,10 +22,8 @@ public:
     void handle(Task* task);
     virtual void run();
 
-private:
+protected:
     std::list<Task *> m_tasks;
-    Mutex m_mutex;
-    Condition m_cond;
 };
 
 }}
