@@ -30,7 +30,6 @@ public:
 
 private:
     int m_threads;
-    Mutex m_mutex;
 
     std::set<Thread *> m_list_idle;
     std::set<Thread *> m_list_busy;

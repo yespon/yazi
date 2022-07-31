@@ -36,10 +36,6 @@ Thread* ThreadPool::get_idle_thread()
 
 void ThreadPool::move_to_idle_list(Thread *thread)
 {
-    // int idle_threads = get_idle_thread_numbers();
-    // int busy_threads = get_busy_thread_numbers();
-    // debug("before move thread to idle list: idle threads=%d busy threads=%d", idle_threads, busy_threads);
-
     m_mutex_idle.lock();
     m_list_idle.insert(thread);
     m_cond_idle.signal();
@@ -51,18 +47,10 @@ void ThreadPool::move_to_idle_list(Thread *thread)
         m_list_busy.erase(it);
     m_cond_busy.signal();
     m_mutex_busy.unlock();
-
-    // idle_threads = get_idle_thread_numbers();
-    // busy_threads = get_busy_thread_numbers();
-    // debug("after move thread to idle list: idle threads=%d busy threads=%d", idle_threads, busy_threads);
 }
 
 void ThreadPool::move_to_busy_list(Thread* thread)
 {
-    // int idle_threads = get_idle_thread_numbers();
-    // int busy_threads = get_busy_thread_numbers();
-    // debug("before move thread to busy list: idle threads=%d busy threads=%d", idle_threads, busy_threads);
-
     m_mutex_busy.lock();
     while (m_list_busy.size() == (size_t)(m_threads))
         m_cond_busy.wait(&m_mutex_busy);
@@ -74,10 +62,6 @@ void ThreadPool::move_to_busy_list(Thread* thread)
     if (it != m_list_idle.end())
         m_list_idle.erase(it);
     m_mutex_idle.unlock();
-
-    // idle_threads = get_idle_thread_numbers();
-    // busy_threads = get_busy_thread_numbers();
-    // debug("after move thread to busy list: idle threads=%d busy threads=%d", idle_threads, busy_threads);
 }
 
 int ThreadPool::get_idle_thread_numbers()
