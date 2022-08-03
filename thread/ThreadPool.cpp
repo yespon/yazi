@@ -85,11 +85,6 @@ void ThreadPool::assign(Task *task)
     }
     debug("assign a new task: %x to thread pool", task);
 
-    m_mutex_busy.lock();
-    while (m_list_busy.size() == (size_t)(m_threads))
-        m_cond_busy.wait(&m_mutex_busy);
-    m_mutex_busy.unlock();
-
     Thread* thread = get_idle_thread();
     if (thread != NULL)
     {
