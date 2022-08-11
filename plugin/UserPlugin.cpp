@@ -18,11 +18,7 @@ UserPlugin::~UserPlugin()
 bool UserPlugin::run(Context & ctx)
 {
     string & input = ctx.ref<string>("input");
-
-    Json json;
-    json.parse(input);
-
-    ctx.ref<string>("output") += "hello, " + json["name"].asString() + " user plugin run!\n";
+    ctx.ref<string>("output") += "user plugin run!";
     return true;
 }
 

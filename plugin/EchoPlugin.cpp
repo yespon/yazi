@@ -27,6 +27,6 @@ bool EchoPlugin::run(Context & ctx)
 {
     string & input = ctx.ref<string>("input");
     info(input.c_str());
-    ctx.ref<string>("output") = input;
+    ctx.ref<string>("output") = input + " echo plugin run!";
     return true;
 }

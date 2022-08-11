@@ -18,6 +18,5 @@ if __name__ == '__main__':
 
     client = socket.socket()  # 创建TCP/IP套接字
     client.connect((host, port))  # 主动初始化TCP服务器连接
-    send_data(client, 'hello python')
-    send_data(client, 'so far so good!')
+    send_data(client, 'hello')
     client.close()

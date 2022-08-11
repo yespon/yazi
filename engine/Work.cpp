@@ -53,7 +53,9 @@ bool Work::run(Context & ctx)
     {
         if ((*it)->get_switch())
         {
-            (*it)->run(ctx);
+            if (!(*it)->run(ctx)) {
+                break;
+            }
         }
     }
 
