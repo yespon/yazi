@@ -102,7 +102,7 @@ void Logger::log(Level level, const char* file, int line, const char* format, va
     memset(buf, 0, sizeof(buf));
     strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S  ", ptm);
     flockfile(m_fp);
-    fprintf(m_fp, buf);
+    fprintf(m_fp, "%s", buf); 
     fprintf(m_fp, "%s  ", s_level[level]);
     fprintf(m_fp, "%s:%d  ", file, line);
     vfprintf(m_fp, format, arg_ptr);
