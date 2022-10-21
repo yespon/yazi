@@ -30,7 +30,7 @@ void System::init()
 
     m_root_path = get_root_path();
 
-    const string logdir = m_root_path + "/log";
+    const string & logdir = m_root_path + "/log";
     DIR * dp = opendir(logdir.c_str());
     if (dp == NULL)
     {
