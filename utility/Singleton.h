@@ -9,17 +9,22 @@ class Singleton
 public:
     static T * instance()
     {
-        static T * instance = NULL;
-        if (instance == NULL)
-            instance = new T();
-        return instance;
+        if (m_instance == NULL)
+            m_instance = new T();
+        return m_instance;
     }
 
-protected:
+private:
     Singleton() {}
     Singleton(const Singleton<T> &);
     Singleton<T> & operator = (const Singleton<T> &);
     ~Singleton() {}
+
+private:
+    static T * m_instance;
 };
+
+template <typename T>
+T * Singleton<T>::m_instance = NULL;
 
 }}
