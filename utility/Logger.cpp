@@ -36,7 +36,7 @@ Logger* Logger::instance()
 void Logger::open(const string &filename)
 {
     m_filename = filename;
-    m_fout.open(filename, ios::app);
+    m_fout.open(filename.c_str(), ios::app);
     if (m_fout.fail())
     {
         throw std::logic_error("open log file failed: " + filename);
